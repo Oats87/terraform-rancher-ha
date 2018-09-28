@@ -224,7 +224,7 @@ resource "aws_instance" "rancherha" {
     volume_size = "${var.instance_disk_size}"
   }
   tags {
-    Name = "${var.prefix}-spot-ha-${count.index}"
+    Name = "${var.prefix}-ondemand-ha-${count.index}"
   }
 }
 
