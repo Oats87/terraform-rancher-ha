@@ -30,5 +30,9 @@ r53_hosted_zone = "my.r53.zone.com."
 # This is the number of AWS instances to create
 instance_count = "3"
 
+# This is the size of the instance disks in GB
+instance_disk_size = "35"
+
 # This is the type of spot instance to use
 type = "t2.medium"
+

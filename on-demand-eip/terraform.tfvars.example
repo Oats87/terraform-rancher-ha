@@ -36,5 +36,4 @@ instance_disk_size = "35"
 # This is the type of spot instance to use
 type = "t2.medium"
 
-# This is the spot instance max price
-spot_price = "0.0464"
+
