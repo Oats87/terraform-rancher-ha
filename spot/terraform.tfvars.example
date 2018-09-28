@@ -1,0 +1,37 @@
+# The AWS Access Key
+aws_access_key = "<REDACTED>"
+
+# The AWS Secret Key
+aws_secret_key = "<REDACTED>"
+
+# This is the SSH Key Pair Name to use
+ssh_key_name = "mykeypairname"
+
+# This is a prefix for resources created by Terraform. It will be prefixed to all resources created as a unique identifier.
+prefix = "myhacluster"
+
+# This is the AWS Region you are deploying in.
+region = "us-west-2"
+
+# The VPC must be in the region specified above
+vpc_id = "<vpc-id>"
+
+# The availability zones must correlate to the region specified above.
+availability_zones = ["us-west-2a", "us-west-2b", "us-west-2c"]
+
+# The subnet_ids must correspond with the availability zones above and be in the vpc specified, i.e. the first is in us-west-2a, the second is in us-west-2b, and so on
+subnet_ids = ["subnet-3ea8fa47","subnet-e80778a3","subnet-4d93be17"]
+
+### The following does not necessarily need to be modified ###
+
+# The route 53 hosted zone for creating the ELB DNS name
+r53_hosted_zone = "my.r53.zone.com."
+
+# This is the number of AWS instances to create
+instance_count = "3"
+
+# This is the type of spot instance to use
+type = "t2.medium"
+
+# This is the spot instance max price
+spot_price = "0.0464"

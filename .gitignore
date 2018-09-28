@@ -1,0 +1,6 @@
+*/terraform.tfvars
+*/terraform.tfstate
+*/terraform.tfstate.backup
+*/cluster.yml
+*/.terraform
+*/kube_config_cluster.yml
