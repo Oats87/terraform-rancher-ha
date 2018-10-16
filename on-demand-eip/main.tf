@@ -76,7 +76,7 @@ data "aws_ami" "ubuntu" {
 # Create a new load balancer
 resource "aws_elb" "elb" {
   name               = "${var.prefix}-rancherha-elb"
-  availability_zones = "${var.availability_zones}"
+  subnets             = "${var.subnet_ids}"
 
   listener {
     instance_port     = 443
