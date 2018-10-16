@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RANCHER_VERSION="latest"
+RANCHER_VERSION="2.1.0"
 HELM_INSTALL=0
 
 while getopts "v:h:i" opt; do
