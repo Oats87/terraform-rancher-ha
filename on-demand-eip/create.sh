@@ -1,16 +1,12 @@
 #!/bin/bash
 
 RANCHER_VERSION="latest"
-HOST_URL=""
 HELM_INSTALL=0
 
 while getopts "v:h:i" opt; do
   case $opt in
     v)
       RANCHER_VERSION=$OPTARG
-      ;;
-    h)
-      HOST_URL=$OPTARG
       ;;
     i) 
       HELM_INSTALL=1
@@ -31,7 +27,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 	terraform apply plan.tfout
-
+	RANCHER_HOST=$(terraform output rancherhost)
 	if [[ $? -eq 0 ]]; then
 
 		if [[ "$TERRA_DIFF" -ne 0 ]]; then
@@ -47,11 +43,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 			echo "To install Rancher, please follow the Rancher HA install guide."
 			echo "https://rancher.com/docs/rancher/v2.x/en/installation/ha/helm-init/"
 		else
-			if [ -z "$HOST_URL" ]; then
-				echo "Host url cannot be empty."
-				echo "Use the -h flag with the host url argument. Or run the helm install command manually"
-				exit 1;
-			fi
 			kubectl -n kube-system create serviceaccount tiller
 			kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 			helm init --service-account tiller
@@ -60,7 +51,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 			sleep 30
 
 			helm install stable/cert-manager --name cert-manager --namespace kube-system
-			helm install rancher-stable/rancher --name rancher --namespace cattle-system --version $RANCHER_VERSION --set hostname=$HOST_URL 
+			helm install rancher-stable/rancher --name rancher --namespace cattle-system --version $RANCHER_VERSION --set hostname=$RANCHER_HOST 
 		fi
 	else
 

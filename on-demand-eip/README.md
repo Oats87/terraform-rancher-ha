@@ -52,11 +52,9 @@ helm install rancher-stable/rancher --name rancher --namespace cattle-system --s
 
 1. Use the command line switch -i with the create.sh script to inform it to execute the helm install. You must specify the hostname on the command line as well
 
-1. Use the command line switch -h `hostname` with the create.sh script to indicate the route53hostname to use.
-
 1. Use the command line switch -v `rancher_version` with the create.sh script to set a specific rancher version. If this is not specified version `latest` will be used.
 
-For all other installation configurations. Alternative certs or other specific arguments that you want to use wit the `helm install` command, it is best to run the command(s) by hand following the `Installing Rancher` section.
+For all other installation configurations. Alternative certs or other specific arguments that you want to use with the `helm install` command, it is best to run the command(s) by hand following the `Installing Rancher` section.
 
 ## Cleaning up
 

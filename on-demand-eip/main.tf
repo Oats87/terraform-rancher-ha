@@ -53,6 +53,11 @@ variable "ssh_key_name" {
   description = "Amazon AWS Key Pair Name"
 }
 
+variable "ssh_key_path" {
+  default     = ""
+  description = "Path to the private key named by ssh_key_name"
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical
@@ -255,10 +260,13 @@ resource "aws_route53_record" "r53_record" {
 
 data "template_file" "segment" {
   count = "${var.instance_count}"
-  template = "- address: ${aws_eip.rancherha-eip.*.public_ip[count.index]}\n  internal_address: ${aws_eip.rancherha-eip.*.private_ip[count.index]}\n  user: ubuntu\n  role: [controlplane,etcd,worker]"
+  template = "- address: ${aws_eip.rancherha-eip.*.public_ip[count.index]}\n  internal_address: ${aws_eip.rancherha-eip.*.private_ip[count.index]}\n  user: ubuntu\n  role: [controlplane,etcd,worker]\n  docker_socket: /var/run/docker.sock\n  ssh_key_path: ${var.ssh_key_path}"
 }
 
 output "clusteryml" {
   value = "nodes:\n${join("\n", data.template_file.segment.*.rendered)}"
 }
 
+output "rancherhost" {
+  value = "${aws_route53_record.r53_record.name}"
+}
