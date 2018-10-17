@@ -50,9 +50,11 @@ helm install rancher-stable/rancher --name rancher --namespace cattle-system --s
 
 ## Automatically installing helm
 
-1. Use the command line switch -i with the create.sh script to inform it to execute the helm install. You must specify the hostname on the command line as well
+1. Use the command line switch -i with the create.sh script to inform it to execute the helm install. 
+`./create.sh -i`
 
-1. Use the command line switch -v `rancher_version` with the create.sh script to set a specific rancher version. If this is not specified version `latest` will be used.
+1. Use the command line switch -v `rancher_version` with the create.sh script to set a specific rancher version. If this is not specified version `2.1.0` will be used. There is currently no `latest` version option for the Rancher helm chart. It is being worked on.
+`./create.sh -v v2.0.8`
 
 For all other installation configurations. Alternative certs or other specific arguments that you want to use with the `helm install` command, it is best to run the command(s) by hand following the `Installing Rancher` section.
 
