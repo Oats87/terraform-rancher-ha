@@ -1,15 +1,19 @@
 #!/bin/bash
 
-RANCHER_VERSION="2.1.0"
+LETS_ENCRYPT=""
 HELM_INSTALL=0
+RANCHER_VERSION="2.1.0"
 
-while getopts "v:h:i" opt; do
+while getopts "c:iv:" opt; do
   case $opt in
-    v)
-      RANCHER_VERSION=$OPTARG
+    c)
+      LETS_ENCRYPT=$OPTARG
       ;;
     i) 
       HELM_INSTALL=1
+      ;;
+    v)
+      RANCHER_VERSION=$OPTARG
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -38,7 +42,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 			export KUBECONFIG=$(pwd)/kube_config_cluster.yml
 		fi
 		
-		if [ "$HELM_INSTALL" -eq 0 ]; then
+		if [[ "$HELM_INSTALL" -eq 0 ]]; then
 			echo "Congratulations, you now have an RKE-created cluster in AWS."
 			echo "To install Rancher, please follow the Rancher HA install guide."
 			echo "https://rancher.com/docs/rancher/v2.x/en/installation/ha/helm-init/"
@@ -51,7 +55,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 			sleep 30
 
 			helm install stable/cert-manager --name cert-manager --namespace kube-system
-			helm install rancher-stable/rancher --name rancher --namespace cattle-system --version $RANCHER_VERSION --set hostname=$RANCHER_HOST 
+			if [[ ! -z "$LETS_ENCRYPT" ]]; then
+				helm install rancher-stable/rancher --name rancher --namespace cattle-system --version "$RANCHER_VERSION" --set hostname="$RANCHER_HOST" --set ingress.tls.source=letsEncrypt --set letsEncrypt.email="$LETS_ENCRYPT"
+			else
+				helm install rancher-stable/rancher --name rancher --namespace cattle-system --version "$RANCHER_VERSION" --set hostname="$RANCHER_HOST"
+			fi
 		fi
 	else
 
