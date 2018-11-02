@@ -248,7 +248,7 @@ data "aws_route53_zone" "r53_zone" {
 
 resource "aws_route53_record" "r53_record" {
   zone_id = "${data.aws_route53_zone.r53_zone.zone_id}"
-  name    = "${var.prefix}-ha.${data.aws_route53_zone.r53_zone.name}"
+  name    = "${var.prefix}.${data.aws_route53_zone.r53_zone.name}"
   type    = "A"
 
   alias {
